@@ -1,0 +1,13 @@
+C:\Users\ilyab\source\repos\GeneticAlgoritm\GeneticAlgoritm\bin\Debug\netcoreapp3.1\GeneticAlgoritm.exe
+C:\Users\ilyab\source\repos\GeneticAlgoritm\GeneticAlgoritm\bin\Debug\netcoreapp3.1\GeneticAlgoritm.deps.json
+C:\Users\ilyab\source\repos\GeneticAlgoritm\GeneticAlgoritm\bin\Debug\netcoreapp3.1\GeneticAlgoritm.runtimeconfig.json
+C:\Users\ilyab\source\repos\GeneticAlgoritm\GeneticAlgoritm\bin\Debug\netcoreapp3.1\GeneticAlgoritm.runtimeconfig.dev.json
+C:\Users\ilyab\source\repos\GeneticAlgoritm\GeneticAlgoritm\bin\Debug\netcoreapp3.1\GeneticAlgoritm.dll
+C:\Users\ilyab\source\repos\GeneticAlgoritm\GeneticAlgoritm\bin\Debug\netcoreapp3.1\GeneticAlgoritm.pdb
+C:\Users\ilyab\source\repos\GeneticAlgoritm\GeneticAlgoritm\obj\Debug\netcoreapp3.1\GeneticAlgoritm.AssemblyInfoInputs.cache
+C:\Users\ilyab\source\repos\GeneticAlgoritm\GeneticAlgoritm\obj\Debug\netcoreapp3.1\GeneticAlgoritm.AssemblyInfo.cs
+C:\Users\ilyab\source\repos\GeneticAlgoritm\GeneticAlgoritm\obj\Debug\netcoreapp3.1\GeneticAlgoritm.csproj.CoreCompileInputs.cache
+C:\Users\ilyab\source\repos\GeneticAlgoritm\GeneticAlgoritm\obj\Debug\netcoreapp3.1\GeneticAlgoritm.dll
+C:\Users\ilyab\source\repos\GeneticAlgoritm\GeneticAlgoritm\obj\Debug\netcoreapp3.1\GeneticAlgoritm.pdb
+C:\Users\ilyab\source\repos\GeneticAlgoritm\GeneticAlgoritm\obj\Debug\netcoreapp3.1\GeneticAlgoritm.genruntimeconfig.cache
+C:\Users\ilyab\source\repos\GeneticAlgoritm\GeneticAlgoritm\obj\Debug\netcoreapp3.1\GeneticAlgoritm.csproj.AssemblyReference.cache
