@@ -15,13 +15,13 @@ namespace GeneticAlgoritm
 
         private double MutationProbability; // вероятность мутации
 
-        Random Rand = new Random(); // рандом, который скорее всего не будет работать (как всегда)
+        Random Rand = new Random(1344); // рандом, который скорее всего не будет работать (как всегда)
 
         private List<ProductChromosomeModel> Generation; // само поколение
 
         private double GenerationAvg;
 
-        public GenericAlgoritm(int generationLen = 10, int maxIteration = 50, double crossover = 0.9, double mutation = 0.1)
+        public GenericAlgoritm(int generationLen = 20, int maxIteration = 50, double crossover = 0.9, double mutation = 0.1)
         {
             GenerationLen = generationLen;
             MaxIteration = maxIteration;
@@ -76,11 +76,8 @@ namespace GeneticAlgoritm
                 {
                     if (RandomDouble() < CrossoverProbabiity)
                     {
-                        OnePointCrossover(Generation[j], Generation[j + 1]);
-                        Generation[j].RefreshProducts();
-                        Generation[j + 1].RefreshProducts();
-                    }
-                                             
+                        Generation[j].TwoPointCrossover(Generation[j + 1], Rand);
+                    }                                           
                 }
 
                 // мутация
@@ -119,14 +116,13 @@ namespace GeneticAlgoritm
 
         public ProductChromosomeModel CreateProductChromosomeModel()
         {
-            List<Product> list = new List<Product>();
+            List<bool> list = new List<bool>();
 
-            foreach (var product in MetaData.Products)
+            for (int i = 0; i < MetaData.Len; ++i)
             {
                 // заполняем список случайными продуктами
                 int random = Rand.Next(0, 2);
-                if (random == 1)
-                    list.Add(product);
+                list.Add(random == 1 ? true : false);                 
             }
 
             return new ProductChromosomeModel(list);
@@ -138,8 +134,17 @@ namespace GeneticAlgoritm
         {
             List<ProductChromosomeModel> result = new List<ProductChromosomeModel>();
 
+            // Добавляем 10% поколения без изменений
+            int isNotCanChange = Convert.ToInt32(Generation.Count() * 0.1);
+            for (int i = 0; i < isNotCanChange; ++i)
+            {
+                var product = (ProductChromosomeModel)Generation[i].Clone();
+                product.SetUnchanged();
+                result.Add(product);
+            }
+
             // формируем список из n (list.Count) особей
-            for (int i = 0; i < list.Count; ++i)
+            for (int i = isNotCanChange; i < list.Count; ++i)
             {
                 List<ProductChromosomeModel> tournament = new List<ProductChromosomeModel>();
                 // выбираем участников турнира
@@ -193,15 +198,6 @@ namespace GeneticAlgoritm
             {
                 child1.BoolProducts[i] = child2.BoolProducts[i];
                 child2.BoolProducts[i] = temp[i - slice];
-            }
-        }
-
-        private void Mutation(ProductChromosomeModel individual, double mutationChance = 0.09)
-        {
-            for (int i = 0; i < individual.BoolProducts.Count; ++i)
-            {
-                if (RandomDouble() < mutationChance)
-                    individual.BoolProducts[i] = !individual.BoolProducts[i];
             }
         }
     }

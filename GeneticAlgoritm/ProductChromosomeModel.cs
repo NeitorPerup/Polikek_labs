@@ -6,12 +6,13 @@ namespace GeneticAlgoritm
 {
     public class ProductChromosomeModel : ICloneable
     {
-        public readonly List<Product> Products;
+        private readonly List<Product> Products;
         public List<bool> BoolProducts;
         public double Protein { get; private set; }
         public double Carb { get; private set; }
         public double Fat { get; private set; } 
         public double Price { get; private set; }
+        private bool IsCanChange { get; set; }
 
         public double Value 
         { 
@@ -21,10 +22,17 @@ namespace GeneticAlgoritm
             }
         }
 
-        public ProductChromosomeModel(List<Product> products)
+        public ProductChromosomeModel(List<bool> boolProducts)
         {
-            Products = products;          
-            FillBoolProducts();
+            BoolProducts = boolProducts;
+            Products = new List<Product>();
+            IsCanChange = true;
+            RefreshProducts();
+        }
+
+        public void SetUnchanged()
+        {
+            IsCanChange = false;
         }
 
         public void RefreshProducts()
@@ -33,19 +41,7 @@ namespace GeneticAlgoritm
             for(int i = 0; i < MetaData.Products.Count; ++i)
             {
                 if (BoolProducts[i])
-                    Products.Add(MetaData.Products[i]);
-            }
-        }
-
-        private void FillBoolProducts()
-        {
-            BoolProducts = new List<bool>();
-            foreach (var pr in MetaData.Products)
-            {
-                if (Products.Contains(pr))
-                    BoolProducts.Add(true);
-                else
-                    BoolProducts.Add(false);
+                    Products.Add((Product)MetaData.Products[i].Clone());
             }
         }
 
@@ -73,8 +69,9 @@ namespace GeneticAlgoritm
                 || fats >= MetaData.MaxFat + MetaData.FatDeviation || carbs >= MetaData.MaxCarb + MetaData.CarbDeviation
                 || Products.Count == 0)
             {
-                Mutation(new Random(), false);
-                return GetValue();
+                return 0;
+                //Mutation(new Random(), false);
+                //return GetValue();
             }
                 
 
@@ -86,6 +83,9 @@ namespace GeneticAlgoritm
 
         public void Mutation(Random rand, bool useValue = true)
         {
+            if (!IsCanChange)
+                return;
+
             if (useValue)
             {
                 double value = Value;
@@ -132,7 +132,40 @@ namespace GeneticAlgoritm
             }
 
             RefreshProducts();
+        }
 
+        public void OnePointCrossover(ProductChromosomeModel child, Random rand, int? cut = null)
+        {
+            if (!IsCanChange)
+                return;
+
+            int slice = cut ?? rand.Next(2, MetaData.Len - 2);
+
+            List<bool> temp = new List<bool>();
+            for (int i = slice; i < MetaData.Len; ++i)
+            {
+                temp.Add(BoolProducts[i]);
+            }
+            for (int i = slice; i < MetaData.Len; ++i)
+            {
+                BoolProducts[i] = child.BoolProducts[i];
+                child.BoolProducts[i] = temp[i - slice];
+            }
+
+            RefreshProducts();
+            child.RefreshProducts();
+        }
+
+        public void TwoPointCrossover(ProductChromosomeModel child, Random rand)
+        {
+            if (!IsCanChange)
+                return;
+
+            int slice = rand.Next(0, MetaData.Len / 2);
+            OnePointCrossover(child, rand, slice);
+
+            slice = rand.Next(MetaData.Len / 2, MetaData.Len - 2);
+            OnePointCrossover(child, rand, slice);
         }
 
         public override string ToString()
@@ -154,8 +187,8 @@ namespace GeneticAlgoritm
 
         public object Clone()
         {
-            List<Product> products = new List<Product>();
-            foreach (var pr in MetaData.Products)
+            List<bool> products = new List<bool>();
+            foreach (var pr in BoolProducts)
             {
                 products.Add(pr);
             }

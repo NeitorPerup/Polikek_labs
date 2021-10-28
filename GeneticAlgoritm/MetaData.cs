@@ -10,13 +10,13 @@ namespace GeneticAlgoritm
 
         public const float MaxFat = 30; // 25
 
-        public const int ProteinDeviation = 5; // 10
+        public const int ProteinDeviation = 10; // 10
 
-        public const int CarbDeviation = 10;
+        public const int CarbDeviation = 7; // 10
 
-        public const int FatDeviation = 5;
+        public const int FatDeviation = 10; // 5
 
-        public const double MaxPrice = 200;
+        public const double MaxPrice = 200; // 200
 
         public static int Len { get { return Products.Count; } }
 
