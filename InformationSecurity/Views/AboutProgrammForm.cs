@@ -17,10 +17,7 @@ namespace InformationSecurity.Views
                 $"Автор программы: студент группы ИСЭбд-41 Белов Илья{Environment.NewLine}" +
                 $"Вариант №8{Environment.NewLine}" +
                 $"Задание:{Environment.NewLine}" +
-                $"В пароле должны быть латинские буквы и символы кириллицы{Environment.NewLine}" +
-                $"Используемый режим шифрования DES: OFB{Environment.NewLine}" +
-                $"Добавление к ключу случайного значения: Нет{Environment.NewLine}" +
-                $"Алгоритм хеширования: Md5{Environment.NewLine}";
+                $"Алгоритм ГОСТ 28147. Режим гаммирования.{Environment.NewLine}";
         }
     }
 }

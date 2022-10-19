@@ -5,6 +5,7 @@ using System.IO;
 using System.Security.Cryptography;
 using Newtonsoft.Json;
 using System.Text;
+using InformationSecurity.BusinessLogic.Services.GOSTCryptoService;
 
 namespace InformationSecurity.FileStorage
 {
@@ -13,12 +14,17 @@ namespace InformationSecurity.FileStorage
         private static FileDataListSingleton instance;
 
         private readonly string UserFileName = "Users.des";
-        private const string DesKey = "ENlpX4kb";
-        private const string DesIV = "ENlpX4kb";
+        private Gamma gam;
+        private string Key = "jэ{уST…ИMЉіЦ\"“Г4т :бо‹JmU|Oxe";
+        private string S = "жжјJЌс";
+        byte[] byteKey, byteS;
+
         public List<User> Users { get; set; }
 
         private FileDataListSingleton()
         {
+            byteKey = Encoding.Default.GetBytes(Key);
+            byteS = Encoding.Default.GetBytes(S);
             Users = LoadUsers();
         }
 
@@ -45,26 +51,20 @@ namespace InformationSecurity.FileStorage
                 {
                     try
                     {
-                        DESCryptoServiceProvider des = new DESCryptoServiceProvider();
-                        //des.Mode = CipherMode.OFB;
-                        des.Key = Encoding.ASCII.GetBytes(DesKey);
-                        des.IV = Encoding.ASCII.GetBytes(DesIV);
-                        var desencrypt = des.CreateDecryptor();
+                        byte[] byteArrayInput = new byte[fsInput.Length];
+                        fsInput.Read(byteArrayInput, 0, byteArrayInput.Length);
+                        gam = new Gamma(byteArrayInput, byteKey, byteS);
+                        byte[] decryptedText = gam.StartGamma();
 
-                        using (CryptoStream cryptoStream = new CryptoStream(fsInput, desencrypt, CryptoStreamMode.Read))
-                        {
-                            byte[] byteArrayInput = new byte[fsInput.Length - 0];
-                            cryptoStream.Read(byteArrayInput, 0, byteArrayInput.Length);
-                            string json = Encoding.ASCII.GetString(byteArrayInput);
-                            list = JsonConvert.DeserializeObject<List<User>>(json);
+                        string json = Encoding.Default.GetString(decryptedText);
+                        list = JsonConvert.DeserializeObject<List<User>>(json);
 
-                            if (list == null || list.Count == 0)
-                                list = new List<User>{new User
+                        if (list == null || list.Count == 0)
+                            list = new List<User>{new User
                             {
                                 Login = "Admin",
                                 IsAdmin = true
                             } };
-                        }
                     }
                     catch (Exception ex)
                     {
@@ -91,17 +91,11 @@ namespace InformationSecurity.FileStorage
             {
                 try
                 {
-                    DESCryptoServiceProvider des = new DESCryptoServiceProvider();
-                    //des.Mode = CipherMode.OFB;
-                    des.Key = Encoding.ASCII.GetBytes(DesKey);
-                    des.IV = Encoding.ASCII.GetBytes(DesIV);
-                    var desencrypt = des.CreateEncryptor();
-                    using (var cryptoStream = new CryptoStream(fsEncrypted, desencrypt, CryptoStreamMode.Write))
-                    {
-                        string jsonUsers = JsonConvert.SerializeObject(users);
-                        byte[] byteArrayInput = Encoding.ASCII.GetBytes(jsonUsers);
-                        cryptoStream.Write(byteArrayInput, 0, byteArrayInput.Length);
-                    }
+                    string jsonUsers = JsonConvert.SerializeObject(users);
+                    byte[] byteUsers = Encoding.Default.GetBytes(jsonUsers);
+                    gam = new Gamma(byteUsers, byteKey, byteS);
+                    byte[] encryptedText = gam.StartGamma();
+                    fsEncrypted.Write(encryptedText, 0, encryptedText.Length);
                 }
                 catch (Exception ex)
                 {

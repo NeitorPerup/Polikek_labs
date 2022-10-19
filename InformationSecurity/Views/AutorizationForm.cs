@@ -23,7 +23,8 @@ namespace InformationSecurity.Views
 
         private void buttonEnter_Click(object sender, EventArgs e)
         {
-            string login = textBoxLogin.Text;
+            //string login = textBoxLogin.Text;
+            string login = "Admin";
             string password = textBoxPassword.Text;
 
             if (string.IsNullOrEmpty(login))
@@ -37,13 +38,13 @@ namespace InformationSecurity.Views
                 MessageBox.Show("Неверный логин", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (!string.IsNullOrEmpty(user.Password) && user.Password != password.Md5())
-            {
-                MessageBox.Show("Неверный пароль", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                if (WrongPasswordCounter++ == MaxWrongPasswordTry)
-                    Close();
-                return;
-            }
+            //if (!string.IsNullOrEmpty(user.Password) && user.Password != password.Md5())
+            //{
+            //    MessageBox.Show("Неверный пароль", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    if (WrongPasswordCounter++ == MaxWrongPasswordTry)
+            //        Close();
+            //    return;
+            //}
             AutorizationSuccess = true;
             MessageBox.Show($"Выполен вход", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Close();
