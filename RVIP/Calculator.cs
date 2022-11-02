@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace RVIP
@@ -24,7 +21,7 @@ namespace RVIP
         }
 
         public static int GetMaxAboveMainDiagonalThread(int[,] matrix, int minValue, int len)
-        {
+        { 
             int max = minValue - 1;
             object locker = new object();
 
@@ -51,7 +48,7 @@ namespace RVIP
         public static int GetMaxAboveMainDiagonalTask(int[,] matrix, int minValue, int len)
         {
             int max = minValue - 1;
-            int taskNumber = 10;
+            int taskNumber = 15;
             Task<int>[] tasks = new Task<int>[taskNumber];
 
             for (int i = 0; i < taskNumber; ++i)
