@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Linq;
-using System.Diagnostics;
-using Apache.Ignite;
 using Apache.Ignite.Core;
-using Apache.Ignite.Core.Binary;
-using Apache.Ignite.Core.Client;
 using Apache.Ignite.Core.Deployment;
 using Apache.Ignite.Core.Discovery.Tcp;
 using Apache.Ignite.Core.Discovery.Tcp.Static;
@@ -15,25 +10,14 @@ namespace application
 {
     class Program
     {
+        public static IIgnite Ignite;
         static void Main(string[] args)
         {
             try
             {
-                var matrixLen = 1000;
-                var Matrix = new int[matrixLen, matrixLen];
-
-                Random rand = new Random();
-                for (int i = 0; i < matrixLen; ++i)
-                {
-                    for (int j = 0; j < matrixLen; ++j)
-                    {
-                        Matrix[i, j] = rand.Next(int.MaxValue);
-                    }
-                }
-
                 var cfg = new IgniteConfiguration
                 {
-                   // PluginConfigurations = new[] { "127.0.0.1:47500..47505" },
+                    Localhost = "127.0.0.1",
                     DiscoverySpi = new TcpDiscoverySpi
                     {
                         IpFinder = new TcpDiscoveryStaticIpFinder
@@ -44,30 +28,24 @@ namespace application
                         ForceServerMode = false
                     },
                     IncludedEventTypes = EventType.CacheAll,
-                    JvmOptions = new[] { "-Xms1024m", "-Xmx1024m" }
+                    JvmOptions = new[] { "-Xms1024m", "-Xmx1024m" },
+                    Logger = new ConsoleLogger
+                    {
+                        MinLevel = LogLevel.Error
+                    },
+                    PeerAssemblyLoadingMode = PeerAssemblyLoadingMode.CurrentAppDomain
                 };
 
-                using (var client = Ignition.Start(cfg))
+                using (var ignite = Ignition.Start(cfg))
                 {
-                    Stopwatch sw = new Stopwatch();
-                    sw.Start();
+                    Ignite = ignite;
+                    //var compute = ignite.GetCluster().ForServers().GetCompute();
+                    ignite.GetServices().DeployNodeSingleton("default-map-service", new RemoteTaskService());
 
-                    var compute = client.GetCluster().ForServers().GetCompute();
-                    int portCount = 10;
+                    Console.WriteLine();
+                    Console.WriteLine(">>> Server node started, press any key to exit ...");
 
-                    var calls = new RemoteTask[portCount];
-                    for (int i = 0; i < portCount; ++i)
-                    {
-                        int start = i * matrixLen / portCount;
-                        int end = (i + 1) * matrixLen / portCount;
-                        calls[i] = new RemoteTask(Matrix, start, end, matrixLen);
-                    }
-
-                    var res = compute.Call(calls);
-                    var maximum = res.Max();
-
-                    sw.Stop();
-                    Console.WriteLine($"\n\nРезультат = {maximum}, время = {sw.Elapsed.TotalMilliseconds} ms\n\n");
+                    Console.ReadKey();
                 }
                     
             }
