@@ -17,6 +17,8 @@ namespace Struct
         {
             Node tmp = new Node(value);
             Node* node = &tmp;
+            node->next = null;
+            node->prev = null;
             node->value = value;
 
 

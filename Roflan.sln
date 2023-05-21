@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sorter", "Sorter\Sorter.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Srialization", "Srialization\Srialization.csproj", "{686B7786-2C1B-4C79-B608-08563637CD80}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashTable", "HashTable\HashTable.csproj", "{F0E7C787-2928-4380-8678-2F32603668A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heap", "Heap\Heap.csproj", "{C26353A7-1F32-45E5-89AD-DD4CDCE7B543}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{686B7786-2C1B-4C79-B608-08563637CD80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{686B7786-2C1B-4C79-B608-08563637CD80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{686B7786-2C1B-4C79-B608-08563637CD80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0E7C787-2928-4380-8678-2F32603668A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0E7C787-2928-4380-8678-2F32603668A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0E7C787-2928-4380-8678-2F32603668A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0E7C787-2928-4380-8678-2F32603668A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C26353A7-1F32-45E5-89AD-DD4CDCE7B543}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C26353A7-1F32-45E5-89AD-DD4CDCE7B543}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C26353A7-1F32-45E5-89AD-DD4CDCE7B543}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C26353A7-1F32-45E5-89AD-DD4CDCE7B543}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

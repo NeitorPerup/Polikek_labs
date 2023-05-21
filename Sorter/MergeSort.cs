@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sorter
 {
+    // сортировка слиянием, сложность nlogn, дополнительная память n
     internal class MergeSort
     {
         public static void Sort(int[] arr, int l, int r)
